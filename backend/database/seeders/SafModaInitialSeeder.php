@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class SafModaInitialSeeder extends Seeder
 {
@@ -155,5 +156,35 @@ class SafModaInitialSeeder extends Seeder
             ['branch_id' => null, 'group_name' => 'pos', 'setting_key' => 'default_customer_name', 'setting_value' => 'SIN NOMBRE', 'value_type' => 'string', 'description' => 'Nombre por defecto para ventas en blanco', 'is_public' => false, 'updated_at' => now()],
             ['branch_id' => null, 'group_name' => 'layaway', 'setting_key' => 'default_layaway_days', 'setting_value' => '15', 'value_type' => 'integer', 'description' => 'Días de vigencia por defecto para apartados', 'is_public' => false, 'updated_at' => now()],
         ]);
+
+        // 8. Superusuario inicial
+        $personId = DB::table('persons')->insertGetId([
+            'first_name' => 'Super',
+            'last_name' => 'Admin',
+            'email' => 'admin',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        $userId = DB::table('users')->insertGetId([
+            'person_id' => $personId,
+            'username' => 'admin',
+            'email' => 'admin',
+            'password_hash' => Hash::make('admin'),
+            'status' => 'active',
+            'email_verified_at' => now(),
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        $superAdminRoleId = DB::table('roles')->where('code', 'SUPER_ADMIN')->value('id');
+        if ($superAdminRoleId) {
+            DB::table('user_roles')->insert([
+                'user_id' => $userId,
+                'role_id' => $superAdminRoleId,
+                'branch_id' => null,
+                'assigned_at' => now(),
+            ]);
+        }
     }
 }

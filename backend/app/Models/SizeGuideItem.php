@@ -28,7 +28,7 @@ class SizeGuideItem extends Model
 
 	protected $casts = [
 		'size_guide_id' => 'int',
-		'measurements' => 'binary',
+		'measurements' => 'array',
 		'sort_order' => 'int'
 	];
 
