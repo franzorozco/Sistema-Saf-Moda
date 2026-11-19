@@ -46,5 +46,10 @@ return [
         // Sucursales
         'branches' => 'branch/photos',
         'branch_documents' => 'branch/documents',
+
+        // Proveedores y Compras
+        'purchase_receipts' => 'purchases/receipts',
+        'purchase_items' => 'purchases/items',
+        'suppliers' => 'purchases/suppliers',
     ],
 ];

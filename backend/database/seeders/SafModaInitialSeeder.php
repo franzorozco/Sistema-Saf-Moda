@@ -177,7 +177,7 @@ class SafModaInitialSeeder extends Seeder
             'updated_at' => now(),
         ]);
 
-        $superAdminRoleId = DB::table('roles')->where('code', 'SUPER_ADMIN')->value('id');
+        $superAdminRoleId = DB::table('roles')->where('code', 'admin')->value('id');
         if ($superAdminRoleId) {
             DB::table('user_roles')->insert([
                 'user_id' => $userId,

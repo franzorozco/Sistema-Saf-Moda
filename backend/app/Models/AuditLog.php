@@ -38,9 +38,10 @@ class AuditLog extends Model
 		'user_id' => 'int',
 		'branch_id' => 'int',
 		'entity_id' => 'int',
-		'old_values' => 'binary',
-		'new_values' => 'binary',
-		'ip_address' => 'inet'
+		'old_values' => 'array',
+		'new_values' => 'array',
+		'ip_address' => 'string',
+		'created_at' => 'datetime'
 	];
 
 	protected $fillable = [

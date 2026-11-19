@@ -60,9 +60,34 @@ class StockTransfer extends Model
 		'notes'
 	];
 
+	public function source_warehouse()
+	{
+		return $this->belongsTo(Warehouse::class, 'source_warehouse_id');
+	}
+
+	public function target_warehouse()
+	{
+		return $this->belongsTo(Warehouse::class, 'target_warehouse_id');
+	}
+
 	public function warehouse()
 	{
 		return $this->belongsTo(Warehouse::class, 'target_warehouse_id');
+	}
+
+	public function requested_by()
+	{
+		return $this->belongsTo(User::class, 'requested_by_user_id');
+	}
+
+	public function shipped_by()
+	{
+		return $this->belongsTo(User::class, 'shipped_by_user_id');
+	}
+
+	public function received_by()
+	{
+		return $this->belongsTo(User::class, 'received_by_user_id');
 	}
 
 	public function user()

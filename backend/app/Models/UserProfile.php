@@ -37,10 +37,11 @@ class UserProfile extends Model
 
 	protected $casts = [
 		'user_id' => 'int',
-		'notification_prefs' => 'binary'
+		'notification_prefs' => 'array'
 	];
 
 	protected $fillable = [
+		'user_id',
 		'display_name',
 		'avatar_url',
 		'bio',

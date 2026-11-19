@@ -9,7 +9,14 @@ import ProductsPage from '../pages/ADMIN/Products/ProductsPage';
 import ReportsPage from '../pages/ADMIN/Reports/ReportsPage';
 import CategoriesPage from '../pages/ADMIN/Catalog/CategoriesPage';
 import AttributesPage from '../pages/ADMIN/Catalog/AttributesPage';
+import UsersPage from '../pages/ADMIN/Users/UsersPage';
+import EmployeesPage from '../pages/ADMIN/Employees/EmployeesPage';
+import CustomersPage from '../pages/ADMIN/Customers/CustomersPage';
+import InventoryPage from '../pages/ADMIN/Inventory/InventoryPage';
+import PurchasesPage from '../pages/ADMIN/Purchases/PurchasesPage';
+import PosHubPage from '../pages/POS/PosHubPage';
 import PosPage from '../pages/POS/PointOfSale/PosPage';
+import PosInventoryPage from '../pages/POS/Inventory/PosInventoryPage';
 import CashRegisterPage from '../pages/POS/CashRegister/CashRegisterPage';
 import HomePage from '../pages/HOME/HomePage';
 import LoginPage from '../pages/HOME/LoginPage';
@@ -36,7 +43,12 @@ const ROUTE_TO_PATH = {
   'admin.reports': '/dashboard/reportes',
   'admin.settings': '/dashboard/configuracion',
   'pos.main': '/pos',
+  'pos.sell': '/pos/vender',
   'pos.cash-register': '/pos/caja',
+  'pos.inventory': '/pos/inventario',
+  'pos.customers': '/pos/clientes',
+  'pos.layaways': '/pos/apartados',
+  'pos.sales': '/pos/ventas',
 };
 
 const PATH_TO_ROUTE = Object.fromEntries(
@@ -99,10 +111,37 @@ export default function AppRouter() {
   }
 
   if (route.startsWith('pos.')) {
+    const posModuleTitles = {
+      'pos.customers': { title: 'Clientes en Punto de Venta', desc: 'Aquí podrás buscar clientes, registrar nuevos compradores y revisar sus puntos o saldo.' },
+      'pos.layaways': { title: 'Apartados y Reservas', desc: 'Aquí podrás gestionar prendas apartadas y registrar abonos en caja.' },
+      'pos.sales': { title: 'Historial y Cambios', desc: 'Aquí podrás consultar ventas emitidas, reimprimir comprobantes y procesar cambios.' },
+    };
+
     return (
-      <PosLayout onNavigate={navigate}>
-        {route === 'pos.main' && <PosPage />}
-        {route === 'pos.cash-register' && <CashRegisterPage />}
+      <PosLayout currentRoute={route} onNavigate={navigate}>
+        {route === 'pos.main' && <PosHubPage onNavigate={navigate} />}
+        {route === 'pos.sell' && <PosPage onNavigate={navigate} />}
+        {route === 'pos.inventory' && <PosInventoryPage onNavigate={navigate} />}
+        {route === 'pos.cash-register' && <CashRegisterPage onNavigate={navigate} />}
+        {posModuleTitles[route] && (
+          <section>
+            <div className="pos-page-head">
+              <div>
+                <span className="pos-eyebrow">Punto de Venta</span>
+                <h1>{posModuleTitles[route].title}</h1>
+              </div>
+              <button type="button" className="pos-btn" onClick={() => navigate('pos.main')}>
+                Volver al Inicio POS
+              </button>
+            </div>
+            <div className="pos-panel pos-empty-module">
+              <p>{posModuleTitles[route].desc}</p>
+              <button type="button" className="pos-btn pos-btn-primary" onClick={() => navigate('pos.main')}>
+                Volver a Opciones del POS
+              </button>
+            </div>
+          </section>
+        )}
       </PosLayout>
     );
   }
@@ -112,6 +151,11 @@ export default function AppRouter() {
     'admin.products',
     'admin.categories',
     'admin.attributes',
+    'admin.inventory',
+    'admin.purchases',
+    'admin.customers',
+    'admin.employees',
+    'admin.users',
     'admin.reports',
   ];
 
@@ -121,6 +165,11 @@ export default function AppRouter() {
       {route === 'admin.products' && <ProductsPage />}
       {route === 'admin.categories' && <CategoriesPage />}
       {route === 'admin.attributes' && <AttributesPage />}
+      {route === 'admin.inventory' && <InventoryPage />}
+      {route === 'admin.purchases' && <PurchasesPage />}
+      {route === 'admin.customers' && <CustomersPage />}
+      {route === 'admin.employees' && <EmployeesPage />}
+      {route === 'admin.users' && <UsersPage />}
       {route === 'admin.reports' && <ReportsPage />}
       {!adminHandled.includes(route) && (
         <section className="admin-panel">

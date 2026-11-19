@@ -18,6 +18,10 @@ class StoragePath
     public const BRANCHES = 'branches';
     public const BRANCH_DOCUMENTS = 'branch_documents';
 
+    public const PURCHASE_RECEIPTS = 'purchase_receipts';
+    public const PURCHASE_ITEMS = 'purchase_items';
+    public const SUPPLIERS = 'suppliers';
+
     /**
      * Retorna el prefijo de carpeta configurado en config/storage_paths.php.
      */

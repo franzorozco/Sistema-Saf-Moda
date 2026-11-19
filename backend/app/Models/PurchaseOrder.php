@@ -44,21 +44,26 @@ class PurchaseOrder extends Model
 	protected $casts = [
 		'supplier_id' => 'int',
 		'target_warehouse_id' => 'int',
-		'order_date' => 'datetime',
-		'expected_date' => 'datetime',
+		'order_date' => 'date:Y-m-d',
+		'expected_date' => 'date:Y-m-d',
 		'received_at' => 'datetime',
 		'subtotal' => 'float',
 		'tax_amount' => 'float',
 		'shipping_cost' => 'float',
 		'total_amount' => 'float',
+		'amount_paid' => 'float',
 		'created_by_user_id' => 'int'
 	];
 
 	protected $fillable = [
 		'po_number',
+		'invoice_number',
 		'supplier_id',
 		'target_warehouse_id',
 		'status',
+		'payment_method',
+		'payment_status',
+		'amount_paid',
 		'order_date',
 		'expected_date',
 		'received_at',
@@ -67,6 +72,8 @@ class PurchaseOrder extends Model
 		'shipping_cost',
 		'total_amount',
 		'created_by_user_id',
+		'supplier_contact_name',
+		'supplier_whatsapp',
 		'notes'
 	];
 
@@ -88,5 +95,15 @@ class PurchaseOrder extends Model
 	public function purchase_order_items()
 	{
 		return $this->hasMany(PurchaseOrderItem::class);
+	}
+
+	public function attachments()
+	{
+		return $this->hasMany(PurchaseAttachment::class);
+	}
+
+	public function price_histories()
+	{
+		return $this->hasMany(PurchasePriceHistory::class);
 	}
 }

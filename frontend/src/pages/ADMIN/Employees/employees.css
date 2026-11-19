@@ -1,0 +1,342 @@
+/* ---------------- EMPLEADOS, HORARIOS Y COMISIONES ---------------- */
+
+.emp-toolbar-4 {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  gap: 0.85rem;
+}
+
+.emp-toolbar-5 {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr 150px 150px 1fr;
+  gap: 0.75rem;
+}
+
+.emp-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.emp-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  background: var(--admin-brown-soft);
+  color: var(--admin-brown-dark);
+  border: 1px solid var(--admin-border);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  flex-shrink: 0;
+}
+
+.emp-cell-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 0;
+}
+
+.emp-cell-name {
+  font-weight: 600;
+  color: var(--admin-espresso);
+}
+
+.emp-cell-sub {
+  font-size: 0.78rem;
+  color: var(--admin-muted);
+}
+
+.emp-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--admin-espresso);
+  white-space: nowrap;
+}
+
+.emp-status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.emp-status-dot.is-active,
+.emp-status-dot.is-completed,
+.emp-status-dot.is-paid {
+  background: #3d7a4f;
+}
+
+.emp-status-dot.is-scheduled,
+.emp-status-dot.is-approved {
+  background: var(--admin-brown-dark);
+}
+
+.emp-status-dot.is-on_leave,
+.emp-status-dot.is-late,
+.emp-status-dot.is-pending {
+  background: #c28538;
+}
+
+.emp-status-dot.is-suspended,
+.emp-status-dot.is-cancelled {
+  background: #a3978e;
+}
+
+.emp-status-dot.is-terminated,
+.emp-status-dot.is-absent {
+  background: var(--admin-danger);
+}
+
+.emp-pills-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.emp-role-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.55rem;
+  border-radius: 4px;
+  border: 1px solid var(--admin-border);
+  background: #ffffff;
+  color: var(--admin-espresso);
+  font-size: 0.74rem;
+  font-weight: 500;
+  width: fit-content;
+  white-space: nowrap;
+}
+
+.emp-role-pill.is-primary {
+  background: #faf7f2;
+  border-color: var(--admin-brown-mid);
+}
+
+.emp-role-muted {
+  color: var(--admin-muted);
+  font-weight: 400;
+}
+
+.emp-form-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  padding-top: 0.35rem;
+}
+
+.emp-form-section-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding-bottom: 0.45rem;
+  border-bottom: 1px solid var(--admin-border);
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--admin-brown-dark);
+}
+
+.emp-inline-add {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr auto auto;
+  gap: 0.6rem;
+  align-items: end;
+  padding: 0.75rem 0.9rem;
+  border: 1px dashed var(--admin-brown-mid);
+  border-radius: 6px;
+  background: #fcfcfc;
+}
+
+.emp-commission-preview {
+  padding: 0.55rem 0.8rem;
+  border: 1px solid var(--admin-border);
+  border-radius: 6px;
+  background: #fafafa;
+  font-size: 0.8rem;
+  color: var(--admin-muted);
+}
+
+.emp-commission-preview strong {
+  color: var(--admin-espresso);
+}
+
+.emp-branch-row {
+  display: grid;
+  grid-template-columns: 1.2fr 1.2fr 145px auto auto;
+  gap: 0.6rem;
+  align-items: end;
+  padding: 0.7rem 0.85rem;
+  border: 1px solid var(--admin-border);
+  border-radius: 6px;
+  background: #ffffff;
+}
+
+.emp-branch-row.is-primary {
+  border-color: var(--admin-brown-mid);
+  background: #fcfaf7;
+}
+
+.emp-section-note {
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--admin-border);
+  border-radius: 6px;
+  background: #fafafa;
+  font-size: 0.83rem;
+  color: var(--admin-muted);
+}
+
+.emp-pass-wrap {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--admin-border);
+  border-radius: 6px;
+  background: var(--admin-bg);
+  transition: border-color 0.2s ease;
+}
+
+.emp-pass-wrap:focus-within {
+  border-color: var(--admin-brown-dark);
+}
+
+.emp-pass-wrap .admin-input {
+  border: none;
+  flex: 1;
+}
+
+.emp-pass-toggle {
+  background: transparent;
+  border: none;
+  color: var(--admin-muted);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  padding: 0 0.75rem;
+}
+
+.emp-pass-toggle:hover {
+  color: var(--admin-espresso);
+}
+
+.emp-switch-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.86rem;
+  color: var(--admin-espresso);
+}
+
+/* ---------------- HORARIOS / TURNOS ---------------- */
+
+.emp-sub-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.emp-weekdays-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.emp-day-pill {
+  padding: 0.45rem 0.8rem;
+  border-radius: 4px;
+  border: 1px solid var(--admin-border);
+  background: #ffffff;
+  color: var(--admin-espresso);
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.emp-day-pill:hover {
+  border-color: var(--admin-brown-dark);
+}
+
+.emp-day-pill.is-selected {
+  background: var(--admin-brown-dark);
+  border-color: var(--admin-brown-dark);
+  color: #ffffff;
+}
+
+.emp-shift-time {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.84rem;
+  font-weight: 500;
+  color: var(--admin-espresso);
+  white-space: nowrap;
+}
+
+/* ---------------- COMISIONES ---------------- */
+
+.emp-rates-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 0.9rem;
+}
+
+.emp-rate-card {
+  border: 1px solid var(--admin-border);
+  border-radius: 6px;
+  padding: 1rem;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.emp-rate-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.emp-rate-input-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.55rem;
+  align-items: end;
+}
+
+.emp-comm-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.9rem;
+}
+
+@media (max-width: 960px) {
+  .emp-toolbar-5 {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .emp-branch-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 820px) {
+  .emp-toolbar-4,
+  .emp-toolbar-5,
+  .emp-inline-add,
+  .emp-rate-input-row {
+    grid-template-columns: 1fr;
+  }
+}

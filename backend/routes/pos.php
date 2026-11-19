@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Pos\CashRegisterController;
+use App\Http\Controllers\Pos\LayawayController;
 use App\Http\Controllers\Pos\PosController;
 use App\Http\Controllers\Pos\SaleController;
 use Illuminate\Support\Facades\Route;
@@ -14,6 +15,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/health', fn () => response()->json(['status' => 'ok', 'module' => 'pos', 'version' => 'v1']));
 
 Route::get('/init', [PosController::class, 'init'])->name('init');
+Route::get('/inventory', [PosController::class, 'inventory'])->name('inventory');
+Route::post('/quick-customer', [PosController::class, 'storeQuickCustomer'])->name('quick-customer');
 
 Route::prefix('cash-register')->name('cash-register.')->group(function () {
     Route::get('/current', [CashRegisterController::class, 'current'])->name('current');
@@ -22,3 +25,8 @@ Route::prefix('cash-register')->name('cash-register.')->group(function () {
 });
 
 Route::apiResource('sales', SaleController::class)->only(['index', 'store', 'show']);
+
+Route::get('/layaways', [LayawayController::class, 'index'])->name('layaways.index');
+Route::post('/layaways', [LayawayController::class, 'store'])->name('layaways.store');
+Route::post('/layaways/{id}/payments', [LayawayController::class, 'addPayment'])->name('layaways.payments');
+Route::post('/layaways/{id}/cancel', [LayawayController::class, 'cancel'])->name('layaways.cancel');

@@ -38,6 +38,8 @@ class EmployeeBranch extends Model
 	];
 
 	protected $fillable = [
+		'employee_id',
+		'branch_id',
 		'is_primary',
 		'assigned_from',
 		'assigned_until'

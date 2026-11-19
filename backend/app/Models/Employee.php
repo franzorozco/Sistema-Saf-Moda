@@ -102,6 +102,11 @@ class Employee extends Model
 					->withPivot('is_primary', 'assigned_from', 'assigned_until');
 	}
 
+	public function employee_branches()
+	{
+		return $this->hasMany(EmployeeBranch::class);
+	}
+
 	public function employee_shifts()
 	{
 		return $this->hasMany(EmployeeShift::class);

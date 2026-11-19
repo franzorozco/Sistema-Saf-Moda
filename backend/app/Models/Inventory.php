@@ -38,7 +38,8 @@ class Inventory extends Model
 		'quantity_on_hand' => 'int',
 		'quantity_reserved' => 'int',
 		'min_stock_alert' => 'int',
-		'max_stock_limit' => 'int'
+		'max_stock_limit' => 'int',
+		'updated_at' => 'datetime'
 	];
 
 	protected $fillable = [
@@ -48,7 +49,8 @@ class Inventory extends Model
 		'quantity_reserved',
 		'min_stock_alert',
 		'max_stock_limit',
-		'bin_location'
+		'bin_location',
+		'updated_at'
 	];
 
 	public function warehouse()

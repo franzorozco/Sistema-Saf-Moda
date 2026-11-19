@@ -43,7 +43,8 @@ class InventoryMovement extends Model
 		'unit_cost' => 'float',
 		'balance_after' => 'int',
 		'reference_id' => 'int',
-		'performed_by_user_id' => 'int'
+		'performed_by_user_id' => 'int',
+		'created_at' => 'datetime'
 	];
 
 	protected $fillable = [

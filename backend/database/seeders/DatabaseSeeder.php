@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             SafModaInitialSeeder::class,
+            JobPositionSeeder::class,
             SafModaCatalogSeeder::class,
         ]);
     }

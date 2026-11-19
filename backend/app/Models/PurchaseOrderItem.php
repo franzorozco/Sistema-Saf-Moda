@@ -6,6 +6,7 @@
 
 namespace App\Models;
 
+use App\Support\StoragePath;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -32,6 +33,9 @@ class PurchaseOrderItem extends Model
 	protected $casts = [
 		'purchase_order_id' => 'int',
 		'variant_id' => 'int',
+		'product_id' => 'int',
+		'is_catalog_linked' => 'bool',
+		'stock_entered' => 'bool',
 		'quantity_ordered' => 'int',
 		'quantity_received' => 'int',
 		'unit_cost' => 'float',
@@ -41,11 +45,29 @@ class PurchaseOrderItem extends Model
 	protected $fillable = [
 		'purchase_order_id',
 		'variant_id',
+		'product_id',
+		'item_name',
+		'item_sku',
+		'item_specs',
+		'is_catalog_linked',
+		'stock_entered',
 		'quantity_ordered',
 		'quantity_received',
 		'unit_cost',
-		'line_total'
+		'line_total',
+		'photo_url',
+		'notes'
 	];
+
+	public function getPhotoUrlAttribute($value): ?string
+	{
+		return StoragePath::publicUrl(StoragePath::PURCHASE_ITEMS, $value);
+	}
+
+	public function getRawPhotoFilename(): ?string
+	{
+		return $this->attributes['photo_url'] ?? null;
+	}
 
 	public function purchase_order()
 	{
@@ -55,5 +77,15 @@ class PurchaseOrderItem extends Model
 	public function product_variant()
 	{
 		return $this->belongsTo(ProductVariant::class, 'variant_id');
+	}
+
+	public function product()
+	{
+		return $this->belongsTo(Product::class);
+	}
+
+	public function attachments()
+	{
+		return $this->hasMany(PurchaseAttachment::class);
 	}
 }

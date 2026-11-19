@@ -1,0 +1,394 @@
+/* ---------------- ESTILOS GENERALES DEL MÓDULO POS ---------------- */
+
+:root {
+  --pos-bg: #ffffff;
+  --pos-surface: #f7f0e7;
+  --pos-brown-soft: #f5ede3;
+  --pos-brown-light: #e6d7c3;
+  --pos-brown-mid: #b69374;
+  --pos-brown-dark: #5c4033;
+  --pos-espresso: #2f2019;
+  --pos-muted: #7e6c60;
+  --pos-border: rgba(92, 64, 51, 0.14);
+  --pos-danger: #9e3b33;
+}
+
+.pos-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--pos-bg);
+  color: var(--pos-espresso);
+}
+
+/* ---------------- BARRA SUPERIOR POS ---------------- */
+
+.pos-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 1.5rem;
+  background: #ffffff;
+  border-bottom: 1px solid var(--pos-border);
+}
+
+.pos-topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.pos-brand-btn {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: var(--pos-espresso);
+}
+
+.pos-brand-title {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--pos-espresso);
+}
+
+.pos-brand-tag {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.14rem 0.45rem;
+  border-radius: 4px;
+  background: var(--pos-brown-soft);
+  color: var(--pos-brown-dark);
+  border: 1px solid var(--pos-border);
+}
+
+.pos-topnav {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.pos-nav-btn {
+  padding: 0.42rem 0.78rem;
+  border-radius: 5px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--pos-muted);
+  font-size: 0.84rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.14s ease, color 0.14s ease, border-color 0.14s ease;
+}
+
+.pos-nav-btn:hover {
+  background: var(--pos-surface);
+  color: var(--pos-espresso);
+}
+
+.pos-nav-btn.is-active {
+  background: var(--pos-brown-soft);
+  color: var(--pos-brown-dark);
+  border-color: rgba(92, 64, 51, 0.22);
+}
+
+.pos-topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.pos-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 1.75rem 1.5rem 2.5rem;
+  max-width: 1320px;
+  width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+/* ---------------- BOTONES GENERALES POS ---------------- */
+
+.pos-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0.54rem 0.95rem;
+  border-radius: 5px;
+  border: 1px solid var(--pos-border);
+  background: #ffffff;
+  color: var(--pos-espresso);
+  font-size: 0.84rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background-color 0.14s ease, border-color 0.14s ease;
+}
+
+.pos-btn:hover {
+  background: var(--pos-surface);
+  border-color: rgba(92, 64, 51, 0.3);
+}
+
+.pos-btn-primary {
+  background: var(--pos-brown-dark);
+  border-color: var(--pos-brown-dark);
+  color: #ffffff;
+}
+
+.pos-btn-primary:hover {
+  background: var(--pos-espresso);
+  border-color: var(--pos-espresso);
+}
+
+/* ---------------- PANTALLA INICIAL POS (HUB CENTRAL) ---------------- */
+
+.pos-hub-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem 0 2.5rem;
+}
+
+.pos-hub-hero {
+  text-align: center;
+  max-width: 620px;
+  margin-bottom: 2.2rem;
+}
+
+.pos-eyebrow {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--pos-brown-mid);
+  margin-bottom: 0.45rem;
+}
+
+.pos-hub-hero h1 {
+  margin: 0;
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-size: 1.95rem;
+  font-weight: 600;
+  color: var(--pos-espresso);
+}
+
+.pos-hub-sub {
+  margin: 0.55rem 0 0;
+  font-size: 0.94rem;
+  color: var(--pos-muted);
+  line-height: 1.45;
+}
+
+.pos-hub-grid {
+  width: 100%;
+  max-width: 980px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.15rem;
+}
+
+.pos-hub-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.15rem;
+  padding: 1.4rem 1.35rem;
+  text-align: left;
+  background: #ffffff;
+  border: 1px solid var(--pos-border);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+
+.pos-hub-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--pos-brown-dark);
+  background: #fdfbf8;
+  box-shadow: 0 10px 24px rgba(47, 32, 25, 0.07);
+}
+
+.pos-hub-card.is-featured {
+  background: var(--pos-surface);
+  border-color: rgba(92, 64, 51, 0.28);
+}
+
+.pos-hub-card.is-featured:hover {
+  background: #f2e8dc;
+  border-color: var(--pos-brown-dark);
+}
+
+.pos-hub-card-top {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.pos-hub-icon-box {
+  width: 46px;
+  height: 46px;
+  border-radius: 6px;
+  background: var(--pos-brown-soft);
+  border: 1px solid var(--pos-border);
+  color: var(--pos-brown-dark);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.pos-hub-card.is-featured .pos-hub-icon-box {
+  background: var(--pos-brown-dark);
+  border-color: var(--pos-brown-dark);
+  color: #ffffff;
+}
+
+.pos-hub-card:hover .pos-hub-icon-box {
+  background: var(--pos-brown-dark);
+  border-color: var(--pos-brown-dark);
+  color: #ffffff;
+}
+
+.pos-hub-icon {
+  width: 22px;
+  height: 22px;
+}
+
+.pos-hub-arrow {
+  width: 18px;
+  height: 18px;
+  color: var(--pos-muted);
+  transition: transform 0.15s ease, color 0.15s ease;
+}
+
+.pos-hub-card:hover .pos-hub-arrow {
+  transform: translateX(3px);
+  color: var(--pos-brown-dark);
+}
+
+.pos-hub-title {
+  margin: 0;
+  font-size: 1.06rem;
+  font-weight: 700;
+  color: var(--pos-espresso);
+}
+
+.pos-hub-desc {
+  margin: 0.35rem 0 0;
+  font-size: 0.84rem;
+  color: var(--pos-muted);
+  line-height: 1.42;
+}
+
+.pos-hub-badge {
+  display: inline-block;
+  padding: 0.16rem 0.5rem;
+  border-radius: 4px;
+  background: #ffffff;
+  border: 1px solid var(--pos-border);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--pos-brown-dark);
+}
+
+/* ---------------- CONTENEDORES DE SUB-VISTAS POS ---------------- */
+
+.pos-page-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.25rem;
+}
+
+.pos-page-head h1 {
+  margin: 0;
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-size: 1.55rem;
+  color: var(--pos-espresso);
+}
+
+.pos-page-sub {
+  margin: 0.25rem 0 0;
+  font-size: 0.86rem;
+  color: var(--pos-muted);
+}
+
+.pos-panel {
+  padding: 1.35rem;
+  background: #ffffff;
+  border: 1px solid var(--pos-border);
+  border-radius: 6px;
+}
+
+.pos-pre {
+  margin: 0.75rem 0 0;
+  padding: 1rem;
+  background: #fcfaf7;
+  border: 1px solid var(--pos-border);
+  border-radius: 5px;
+  font-size: 0.82rem;
+  overflow-x: auto;
+}
+
+.pos-empty-module {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.75rem;
+  padding: 2.5rem 1rem;
+}
+
+.pos-empty-module p {
+  margin: 0;
+  max-width: 460px;
+  color: var(--pos-muted);
+  font-size: 0.9rem;
+}
+
+@media (max-width: 960px) {
+  .pos-hub-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .pos-topbar {
+    padding: 0.7rem 1rem;
+  }
+
+  .pos-main {
+    padding: 1.2rem 1rem 2rem;
+  }
+
+  .pos-hub-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -58,6 +58,7 @@ class User extends Model
 	];
 
 	protected $hidden = [
+		'password_hash',
 		'remember_token'
 	];
 
@@ -86,6 +87,21 @@ class User extends Model
 	{
 		return $this->belongsToMany(Role::class, 'user_roles')
 					->withPivot('id', 'branch_id', 'assigned_at');
+	}
+
+	public function user_roles()
+	{
+		return $this->hasMany(UserRole::class);
+	}
+
+	public function employee()
+	{
+		return $this->hasOne(Employee::class);
+	}
+
+	public function customer()
+	{
+		return $this->hasOne(Customer::class);
 	}
 
 	public function employees()

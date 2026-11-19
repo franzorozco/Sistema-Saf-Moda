@@ -72,8 +72,7 @@ class Layaway extends Model
 		'expires_at',
 		'completed_at',
 		'cancelled_at',
-		'notes',
-		'balance_due'
+		'notes'
 	];
 
 	public function branch()

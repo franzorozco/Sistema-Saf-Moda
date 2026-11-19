@@ -58,6 +58,16 @@ class InventoryCount extends Model
 		return $this->belongsTo(Warehouse::class);
 	}
 
+	public function conducted_by()
+	{
+		return $this->belongsTo(User::class, 'conducted_by_user_id');
+	}
+
+	public function approved_by()
+	{
+		return $this->belongsTo(User::class, 'approved_by_user_id');
+	}
+
 	public function user()
 	{
 		return $this->belongsTo(User::class, 'approved_by_user_id');

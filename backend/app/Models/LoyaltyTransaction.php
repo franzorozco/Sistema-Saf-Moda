@@ -34,7 +34,8 @@ class LoyaltyTransaction extends Model
 		'customer_id' => 'int',
 		'sale_id' => 'int',
 		'points_delta' => 'int',
-		'balance_after' => 'int'
+		'balance_after' => 'int',
+		'created_at' => 'datetime'
 	];
 
 	protected $fillable = [

@@ -37,9 +37,9 @@ class EmployeeShift extends Model
 	protected $casts = [
 		'employee_id' => 'int',
 		'branch_id' => 'int',
-		'shift_date' => 'datetime',
-		'starts_at' => 'time without time zone',
-		'ends_at' => 'time without time zone',
+		'shift_date' => 'date:Y-m-d',
+		'starts_at' => 'string',
+		'ends_at' => 'string',
 		'actual_check_in' => 'datetime',
 		'actual_check_out' => 'datetime'
 	];
