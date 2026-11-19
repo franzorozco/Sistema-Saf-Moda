@@ -1,31 +1,11 @@
 <?php
 
-/**
- * Created by Reliese Model.
- */
-
 namespace App\Models;
 
+use App\Support\StoragePath;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class ProductImage
- * 
- * @property int $id
- * @property int $product_id
- * @property int|null $variant_id
- * @property string $image_url
- * @property string|null $alt_text
- * @property bool $is_primary
- * @property int $sort_order
- * @property Carbon $created_at
- * 
- * @property Product $product
- * @property ProductVariant|null $product_variant
- *
- * @package App\Models
- */
 class ProductImage extends Model
 {
 	protected $table = 'product_images';
@@ -46,6 +26,31 @@ class ProductImage extends Model
 		'is_primary',
 		'sort_order'
 	];
+
+	protected $appends = [
+		'filename',
+	];
+
+	public function getImageUrlAttribute($value): string
+	{
+		if (empty($value)) {
+			return '';
+		}
+
+		if (str_starts_with($value, 'http://') || str_starts_with($value, 'https://')) {
+			return $value;
+		}
+
+		$storageKey = $this->variant_id ? StoragePath::PRODUCT_VARIANTS : StoragePath::PRODUCTS;
+
+		return StoragePath::publicUrl($storageKey, $value) ?? $value;
+	}
+
+	public function getFilenameAttribute(): string
+	{
+		$raw = $this->attributes['image_url'] ?? '';
+		return basename($raw);
+	}
 
 	public function product()
 	{

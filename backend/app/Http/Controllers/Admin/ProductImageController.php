@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\ProductImage;
 use App\Models\ProductVariant;
 use App\Services\Storage\ImageStorageService;
+use App\Support\StoragePath;
 use App\Traits\ApiResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -48,15 +49,22 @@ class ProductImageController extends Controller
             'is_primary' => ['nullable', 'boolean'],
         ]);
 
-        $imageUrl = $this->storageService->upload(
+        $storageKey = ($validated['scope'] === 'variant' || $validated['scope'] === 'attribute')
+            ? StoragePath::PRODUCT_VARIANTS
+            : StoragePath::PRODUCTS;
+
+        $directory = StoragePath::directory($storageKey);
+
+        // Se guarda en R2 y se obtiene ÚNICAMENTE el nombre de archivo (ej. uuid.png)
+        $filename = $this->storageService->uploadFile(
             $request->file('image'),
-            'products/' . $product->sku_prefix
+            $directory
         );
 
         $isPrimary = filter_var($validated['is_primary'] ?? false, FILTER_VALIDATE_BOOLEAN);
         $altText = $validated['alt_text'] ?? $product->name;
 
-        $created = DB::transaction(function () use ($product, $validated, $imageUrl, $isPrimary, $altText) {
+        $created = DB::transaction(function () use ($product, $validated, $filename, $isPrimary, $altText) {
             if ($validated['scope'] === 'product') {
                 if ($isPrimary) {
                     ProductImage::where('product_id', $product->id)
@@ -67,7 +75,7 @@ class ProductImageController extends Controller
                 $img = ProductImage::create([
                     'product_id' => $product->id,
                     'variant_id' => null,
-                    'image_url' => $imageUrl,
+                    'image_url' => $filename,
                     'alt_text' => $altText,
                     'is_primary' => $isPrimary,
                     'sort_order' => 0,
@@ -87,7 +95,7 @@ class ProductImageController extends Controller
                 $img = ProductImage::create([
                     'product_id' => $product->id,
                     'variant_id' => $variantId,
-                    'image_url' => $imageUrl,
+                    'image_url' => $filename,
                     'alt_text' => $altText,
                     'is_primary' => $isPrimary,
                     'sort_order' => 0,
@@ -96,7 +104,7 @@ class ProductImageController extends Controller
                 return [$img->load('product_variant:id,sku,variant_label')];
             }
 
-            // scope === 'attribute': asignar la misma URL a todas las variantes del producto con ese atributo/valor
+            // scope === 'attribute': asignar el mismo nombre de archivo a todas las variantes del producto con ese atributo/valor
             $matchingVariantIds = ProductVariant::where('product_id', $product->id)
                 ->whereHas('variant_attribute_values', function ($q) use ($validated) {
                     $q->where('attribute_id', $validated['attribute_id'])
@@ -115,7 +123,7 @@ class ProductImageController extends Controller
                 $img = ProductImage::create([
                     'product_id' => $product->id,
                     'variant_id' => $vId,
-                    'image_url' => $imageUrl,
+                    'image_url' => $filename,
                     'alt_text' => $altText,
                     'is_primary' => $isPrimary,
                     'sort_order' => 0,
@@ -127,8 +135,8 @@ class ProductImageController extends Controller
         });
 
         if (count($created) === 0) {
-            $this->storageService->deleteByUrl($imageUrl);
-            return $this->error('Ninguna variante de este producto coincide con el atributo seleccionado.', 422);
+            $this->storageService->deleteFile($directory, $filename);
+            return $this->error('No se encontraron variantes que coincidan con ese atributo.', 422);
         }
 
         return $this->success($created, 'Imagen subida correctamente', 201);
@@ -156,12 +164,15 @@ class ProductImageController extends Controller
     public function destroy(string $imageId): JsonResponse
     {
         $image = ProductImage::findOrFail($imageId);
-        $url = $image->image_url;
+        $rawFilename = $image->getRawOriginal('image_url');
+        $storageKey = $image->variant_id ? StoragePath::PRODUCT_VARIANTS : StoragePath::PRODUCTS;
+        $directory = StoragePath::directory($storageKey);
+
         $image->delete();
 
-        $stillReferenced = ProductImage::where('image_url', $url)->exists();
+        $stillReferenced = ProductImage::where('image_url', $rawFilename)->exists();
         if (!$stillReferenced) {
-            $this->storageService->deleteByUrl($url);
+            $this->storageService->deleteFile($directory, $rawFilename);
         }
 
         return $this->success(null, 'Imagen eliminada');
