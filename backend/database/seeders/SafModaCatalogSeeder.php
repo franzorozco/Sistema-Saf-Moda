@@ -26,124 +26,55 @@ class SafModaCatalogSeeder extends Seeder
             ->pluck('id', 'code');
 
         // 1. Marcas
-        $brandSafId = DB::table('brands')->insertGetId([
-            'code' => 'M0001',
-            'name' => 'Saf Atelier',
-            'slug' => 'saf-atelier',
-            'is_active' => true,
-            'created_at' => $now,
-            'updated_at' => $now,
+        DB::table('brands')->insertOrIgnore([
+            ['code' => 'M0001', 'name' => 'Saf Atelier', 'slug' => 'saf-atelier', 'is_active' => true, 'created_at' => $now, 'updated_at' => $now],
+            ['code' => 'M0002', 'name' => 'Lino & Seda', 'slug' => 'lino-y-seda', 'is_active' => true, 'created_at' => $now, 'updated_at' => $now],
+            ['code' => 'M0003', 'name' => 'Brisa Urbana', 'slug' => 'brisa-urbana', 'is_active' => true, 'created_at' => $now, 'updated_at' => $now],
         ]);
 
-        $brandLinoId = DB::table('brands')->insertGetId([
-            'code' => 'M0002',
-            'name' => 'Lino & Seda',
-            'slug' => 'lino-y-seda',
-            'is_active' => true,
-            'created_at' => $now,
-            'updated_at' => $now,
-        ]);
-
-        $brandBrisaId = DB::table('brands')->insertGetId([
-            'code' => 'M0003',
-            'name' => 'Brisa Urbana',
-            'slug' => 'brisa-urbana',
-            'is_active' => true,
-            'created_at' => $now,
-            'updated_at' => $now,
-        ]);
+        $brandSafId = DB::table('brands')->where('code', 'M0001')->value('id');
+        $brandLinoId = DB::table('brands')->where('code', 'M0002')->value('id');
+        $brandBrisaId = DB::table('brands')->where('code', 'M0003')->value('id');
 
         // 2. Colecciones / Temporadas
-        $seasonVeranoId = DB::table('seasons')->insertGetId([
-            'code' => 'T0001',
-            'name' => 'Colección Verano',
-            'year' => 2026,
-            'starts_at' => '2026-01-01',
-            'ends_at' => '2026-05-31',
-            'is_active' => true,
-            'created_at' => $now,
-            'updated_at' => $now,
+        DB::table('seasons')->insertOrIgnore([
+            ['code' => 'T0001', 'name' => 'Colección Verano', 'year' => 2026, 'starts_at' => '2026-01-01', 'ends_at' => '2026-05-31', 'is_active' => true, 'created_at' => $now, 'updated_at' => $now],
+            ['code' => 'T0002', 'name' => 'Otoño Esencial', 'year' => 2026, 'starts_at' => '2026-06-01', 'ends_at' => '2026-10-31', 'is_active' => true, 'created_at' => $now, 'updated_at' => $now],
         ]);
 
-        $seasonOtonoId = DB::table('seasons')->insertGetId([
-            'code' => 'T0002',
-            'name' => 'Otoño Esencial',
-            'year' => 2026,
-            'starts_at' => '2026-06-01',
-            'ends_at' => '2026-10-31',
-            'is_active' => true,
-            'created_at' => $now,
-            'updated_at' => $now,
-        ]);
+        $seasonVeranoId = DB::table('seasons')->where('code', 'T0001')->value('id');
+        $seasonOtonoId = DB::table('seasons')->where('code', 'T0002')->value('id');
 
         // 3. Categorías
-        $catVestidosId = DB::table('categories')->insertGetId([
-            'code' => 'C0001',
-            'name' => 'Vestidos',
-            'slug' => 'vestidos',
-            'description' => 'Vestidos casuales, midi y de noche',
-            'sort_order' => 1,
-            'is_active' => true,
-            'created_at' => $now,
-            'updated_at' => $now,
+        DB::table('categories')->insertOrIgnore([
+            ['code' => 'C0001', 'name' => 'Vestidos', 'slug' => 'vestidos', 'description' => 'Vestidos casuales, midi y de noche', 'sort_order' => 1, 'is_active' => true, 'created_at' => $now, 'updated_at' => $now],
+            ['code' => 'C0002', 'name' => 'Blusas', 'slug' => 'blusas', 'description' => 'Blusas en seda, lino y algodón', 'sort_order' => 2, 'is_active' => true, 'created_at' => $now, 'updated_at' => $now],
+            ['code' => 'C0003', 'name' => 'Pantalones', 'slug' => 'pantalones', 'description' => 'Palazzo, sastre y tiro alto', 'sort_order' => 3, 'is_active' => true, 'created_at' => $now, 'updated_at' => $now],
+            ['code' => 'C0004', 'name' => 'Conjuntos', 'slug' => 'conjuntos', 'description' => 'Sets de dos piezas coordinadas', 'sort_order' => 4, 'is_active' => true, 'created_at' => $now, 'updated_at' => $now],
+            ['code' => 'C0005', 'name' => 'Abrigos y Blazers', 'slug' => 'abrigos-y-blazers', 'description' => 'Blazers estructurados y sacos', 'sort_order' => 5, 'is_active' => true, 'created_at' => $now, 'updated_at' => $now],
         ]);
 
-        $catBlusasId = DB::table('categories')->insertGetId([
-            'code' => 'C0002',
-            'name' => 'Blusas',
-            'slug' => 'blusas',
-            'description' => 'Blusas en seda, lino y algodón',
-            'sort_order' => 2,
-            'is_active' => true,
-            'created_at' => $now,
-            'updated_at' => $now,
-        ]);
-
-        $catPantalonesId = DB::table('categories')->insertGetId([
-            'code' => 'C0003',
-            'name' => 'Pantalones',
-            'slug' => 'pantalones',
-            'description' => 'Palazzo, sastre y tiro alto',
-            'sort_order' => 3,
-            'is_active' => true,
-            'created_at' => $now,
-            'updated_at' => $now,
-        ]);
-
-        $catConjuntosId = DB::table('categories')->insertGetId([
-            'code' => 'C0004',
-            'name' => 'Conjuntos',
-            'slug' => 'conjuntos',
-            'description' => 'Sets de dos piezas coordinadas',
-            'sort_order' => 4,
-            'is_active' => true,
-            'created_at' => $now,
-            'updated_at' => $now,
-        ]);
-
-        $catBlazersId = DB::table('categories')->insertGetId([
-            'code' => 'C0005',
-            'name' => 'Abrigos y Blazers',
-            'slug' => 'abrigos-y-blazers',
-            'description' => 'Blazers estructurados y sacos',
-            'sort_order' => 5,
-            'is_active' => true,
-            'created_at' => $now,
-            'updated_at' => $now,
-        ]);
+        $catVestidosId = DB::table('categories')->where('code', 'C0001')->value('id');
+        $catBlusasId = DB::table('categories')->where('code', 'C0002')->value('id');
+        $catPantalonesId = DB::table('categories')->where('code', 'C0003')->value('id');
+        $catConjuntosId = DB::table('categories')->where('code', 'C0004')->value('id');
+        $catBlazersId = DB::table('categories')->where('code', 'C0005')->value('id');
 
         // 4. Guía de tallas
-        $sizeGuideId = DB::table('size_guides')->insertGetId([
-            'department_id' => $womenDeptId,
-            'category_id' => $catVestidosId,
-            'name' => 'Guía Mujer Estándar',
-            'unit' => 'cm',
-            'notes' => 'Medidas corporales aproximadas en centímetros.',
-            'created_at' => $now,
-            'updated_at' => $now,
-        ]);
+        $sizeGuideId = DB::table('size_guides')->where('name', 'Guía Mujer Estándar')->value('id');
+        if (!$sizeGuideId) {
+            $sizeGuideId = DB::table('size_guides')->insertGetId([
+                'department_id' => $womenDeptId,
+                'category_id' => $catVestidosId,
+                'name' => 'Guía Mujer Estándar',
+                'unit' => 'cm',
+                'notes' => 'Medidas corporales aproximadas en centímetros.',
+                'created_at' => $now,
+                'updated_at' => $now,
+            ]);
+        }
 
-        DB::table('size_guide_items')->insert([
+        DB::table('size_guide_items')->insertOrIgnore([
             ['size_guide_id' => $sizeGuideId, 'size_label' => 'S', 'measurements' => json_encode(['busto' => '86-90', 'cintura' => '66-70', 'cadera' => '92-96']), 'sort_order' => 1],
             ['size_guide_id' => $sizeGuideId, 'size_label' => 'M', 'measurements' => json_encode(['busto' => '91-95', 'cintura' => '71-75', 'cadera' => '97-101']), 'sort_order' => 2],
             ['size_guide_id' => $sizeGuideId, 'size_label' => 'L', 'measurements' => json_encode(['busto' => '96-102', 'cintura' => '76-82', 'cadera' => '102-108']), 'sort_order' => 3],
@@ -246,7 +177,7 @@ class SafModaCatalogSeeder extends Seeder
         ];
 
         foreach ($catalog as $item) {
-            $productId = DB::table('products')->insertGetId([
+            DB::table('products')->insertOrIgnore([
                 'department_id' => $womenDeptId,
                 'category_id' => $item['category_id'],
                 'brand_id' => $item['brand_id'],
@@ -265,7 +196,9 @@ class SafModaCatalogSeeder extends Seeder
                 'updated_at' => $now,
             ]);
 
-            DB::table('product_attributes')->insert([
+            $productId = DB::table('products')->where('sku_prefix', $item['sku_prefix'])->value('id');
+
+            DB::table('product_attributes')->insertOrIgnore([
                 ['product_id' => $productId, 'attribute_id' => $sizeAttrId, 'is_required' => true, 'sort_order' => 1],
                 ['product_id' => $productId, 'attribute_id' => $colorAttrId, 'is_required' => true, 'sort_order' => 2],
             ]);
@@ -273,7 +206,7 @@ class SafModaCatalogSeeder extends Seeder
             foreach ($item['variants'] as $idx => $v) {
                 $sku = $item['sku_prefix'] . '-' . str_pad((string) ($idx + 1), 2, '0', STR_PAD_LEFT);
 
-                $variantId = DB::table('product_variants')->insertGetId([
+                DB::table('product_variants')->insertOrIgnore([
                     'product_id' => $productId,
                     'sku' => $sku,
                     'variant_label' => $v['size'] . ' / ' . ucfirst(strtolower($v['color'])),
@@ -285,7 +218,9 @@ class SafModaCatalogSeeder extends Seeder
                     'updated_at' => $now,
                 ]);
 
-                DB::table('variant_attribute_values')->insert([
+                $variantId = DB::table('product_variants')->where('sku', $sku)->value('id');
+
+                DB::table('variant_attribute_values')->insertOrIgnore([
                     [
                         'variant_id' => $variantId,
                         'attribute_id' => $sizeAttrId,
@@ -299,7 +234,7 @@ class SafModaCatalogSeeder extends Seeder
                 ]);
 
                 if ($warehouseId) {
-                    DB::table('inventories')->insert([
+                    DB::table('inventories')->insertOrIgnore([
                         'warehouse_id' => $warehouseId,
                         'variant_id' => $variantId,
                         'quantity_on_hand' => $v['stock'],

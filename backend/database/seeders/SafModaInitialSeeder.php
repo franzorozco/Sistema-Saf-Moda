@@ -11,7 +11,7 @@ class SafModaInitialSeeder extends Seeder
     public function run(): void
     {
         // 1. Sucursal principal, almacén y caja
-        $branchId = DB::table('branches')->insertGetId([
+        DB::table('branches')->insertOrIgnore([
             'code' => 'SUC-01',
             'name' => 'SafModa Central',
             'branch_type' => 'hybrid',
@@ -24,7 +24,9 @@ class SafModaInitialSeeder extends Seeder
             'updated_at' => now(),
         ]);
 
-        DB::table('warehouses')->insert([
+        $branchId = DB::table('branches')->where('code', 'SUC-01')->value('id');
+
+        DB::table('warehouses')->insertOrIgnore([
             'branch_id' => $branchId,
             'code' => 'ALM-01',
             'name' => 'Piso de Venta Central',
@@ -35,7 +37,7 @@ class SafModaInitialSeeder extends Seeder
             'updated_at' => now(),
         ]);
 
-        DB::table('cash_registers')->insert([
+        DB::table('cash_registers')->insertOrIgnore([
             'branch_id' => $branchId,
             'code' => 'CAJA-01',
             'name' => 'Caja Principal',
@@ -45,47 +47,50 @@ class SafModaInitialSeeder extends Seeder
         ]);
 
         // 2. Departamentos (Mujer primero, listo para Hombre/Unisex)
-        DB::table('departments')->insert([
+        DB::table('departments')->insertOrIgnore([
             ['code' => 'WOMEN', 'name' => 'Mujer', 'slug' => 'mujer', 'sort_order' => 1, 'is_active' => true, 'created_at' => now(), 'updated_at' => now()],
             ['code' => 'MEN', 'name' => 'Hombre', 'slug' => 'hombre', 'sort_order' => 2, 'is_active' => true, 'created_at' => now(), 'updated_at' => now()],
             ['code' => 'UNISEX', 'name' => 'Unisex', 'slug' => 'unisex', 'sort_order' => 3, 'is_active' => true, 'created_at' => now(), 'updated_at' => now()],
         ]);
 
         // 3. Atributos base (Talla, Color, Material)
-        $sizeAttrId = DB::table('attributes')->insertGetId([
-            'code' => 'SIZE',
-            'name' => 'Talla',
-            'data_type' => 'text',
-            'is_variant_axis' => true,
-            'sort_order' => 1,
-            'is_active' => true,
-            'created_at' => now(),
-            'updated_at' => now(),
+        DB::table('attributes')->insertOrIgnore([
+            [
+                'code' => 'SIZE',
+                'name' => 'Talla',
+                'data_type' => 'text',
+                'is_variant_axis' => true,
+                'sort_order' => 1,
+                'is_active' => true,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'code' => 'COLOR',
+                'name' => 'Color',
+                'data_type' => 'color_hex',
+                'is_variant_axis' => true,
+                'sort_order' => 2,
+                'is_active' => true,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'code' => 'MATERIAL',
+                'name' => 'Material',
+                'data_type' => 'text',
+                'is_variant_axis' => false,
+                'sort_order' => 3,
+                'is_active' => true,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
         ]);
 
-        $colorAttrId = DB::table('attributes')->insertGetId([
-            'code' => 'COLOR',
-            'name' => 'Color',
-            'data_type' => 'color_hex',
-            'is_variant_axis' => true,
-            'sort_order' => 2,
-            'is_active' => true,
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+        $sizeAttrId = DB::table('attributes')->where('code', 'SIZE')->value('id');
+        $colorAttrId = DB::table('attributes')->where('code', 'COLOR')->value('id');
 
-        DB::table('attributes')->insert([
-            'code' => 'MATERIAL',
-            'name' => 'Material',
-            'data_type' => 'text',
-            'is_variant_axis' => false,
-            'sort_order' => 3,
-            'is_active' => true,
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-
-        DB::table('attribute_values')->insert([
+        DB::table('attribute_values')->insertOrIgnore([
             ['attribute_id' => $sizeAttrId, 'code' => 'XS', 'value' => 'XS', 'meta_hex' => null, 'sort_order' => 1, 'is_active' => true],
             ['attribute_id' => $sizeAttrId, 'code' => 'S', 'value' => 'S', 'meta_hex' => null, 'sort_order' => 2, 'is_active' => true],
             ['attribute_id' => $sizeAttrId, 'code' => 'M', 'value' => 'M', 'meta_hex' => null, 'sort_order' => 3, 'is_active' => true],
@@ -98,7 +103,7 @@ class SafModaInitialSeeder extends Seeder
         ]);
 
         // 4. Roles base y Permisos granulares clasificados por módulo y clase
-        DB::table('roles')->insert([
+        DB::table('roles')->insertOrIgnore([
             ['code' => 'admin', 'name' => 'Administrador', 'description' => 'Acceso total al sistema', 'is_system' => true, 'created_at' => now(), 'updated_at' => now()],
             ['code' => 'branch_manager', 'name' => 'Encargado de Sucursal', 'description' => 'Gestión operativa de sucursal', 'is_system' => true, 'created_at' => now(), 'updated_at' => now()],
             ['code' => 'cashier', 'name' => 'Cajero', 'description' => 'POS, cobros, aperturas y cierres de caja', 'is_system' => true, 'created_at' => now(), 'updated_at' => now()],
@@ -120,19 +125,19 @@ class SafModaInitialSeeder extends Seeder
             ['module' => 'reports', 'permission_class' => 'read', 'code' => 'reports.view', 'name' => 'Ver reportes financieros y ventas', 'sort_order' => 1],
             ['module' => 'settings', 'permission_class' => 'manage', 'code' => 'settings.manage', 'name' => 'Configurar sistema y sucursales', 'sort_order' => 1],
         ];
-        DB::table('permissions')->insert($permissions);
+        DB::table('permissions')->insertOrIgnore($permissions);
 
         $adminRoleId = DB::table('roles')->where('code', 'admin')->value('id');
         $allPermissionIds = DB::table('permissions')->pluck('id');
         foreach ($allPermissionIds as $permId) {
-            DB::table('role_permissions')->insert([
+            DB::table('role_permissions')->insertOrIgnore([
                 'role_id' => $adminRoleId,
                 'permission_id' => $permId,
             ]);
         }
 
         // 5. Métodos de pago (soporta pagos mixtos)
-        DB::table('payment_methods')->insert([
+        DB::table('payment_methods')->insertOrIgnore([
             ['code' => 'CASH', 'name' => 'Efectivo', 'method_type' => 'cash', 'is_active' => true],
             ['code' => 'QR', 'name' => 'QR / Transferencia', 'method_type' => 'qr_transfer', 'is_active' => true],
             ['code' => 'CARD', 'name' => 'Tarjeta Débito/Crédito', 'method_type' => 'card', 'is_active' => true],
@@ -141,7 +146,7 @@ class SafModaInitialSeeder extends Seeder
         ]);
 
         // 6. Categorías de gastos
-        DB::table('expense_categories')->insert([
+        DB::table('expense_categories')->insertOrIgnore([
             ['code' => 'RENT', 'name' => 'Alquiler', 'description' => 'Alquiler de local', 'is_active' => true],
             ['code' => 'UTILITIES', 'name' => 'Servicios Básicos', 'description' => 'Luz, agua, internet', 'is_active' => true],
             ['code' => 'PACKAGING', 'name' => 'Empaques y Bolsas', 'description' => 'Bolsas, etiquetas, cajas', 'is_active' => true],
@@ -150,7 +155,7 @@ class SafModaInitialSeeder extends Seeder
         ]);
 
         // 7. Configuración inicial del sistema
-        DB::table('system_settings')->insert([
+        DB::table('system_settings')->insertOrIgnore([
             ['branch_id' => null, 'group_name' => 'general', 'setting_key' => 'store_name', 'setting_value' => 'SafModa', 'value_type' => 'string', 'description' => 'Nombre comercial de la tienda', 'is_public' => true, 'updated_at' => now()],
             ['branch_id' => null, 'group_name' => 'general', 'setting_key' => 'default_currency', 'setting_value' => 'BOB', 'value_type' => 'string', 'description' => 'Moneda por defecto', 'is_public' => true, 'updated_at' => now()],
             ['branch_id' => null, 'group_name' => 'pos', 'setting_key' => 'default_customer_name', 'setting_value' => 'SIN NOMBRE', 'value_type' => 'string', 'description' => 'Nombre por defecto para ventas en blanco', 'is_public' => false, 'updated_at' => now()],
@@ -158,28 +163,34 @@ class SafModaInitialSeeder extends Seeder
         ]);
 
         // 8. Superusuario inicial
-        $personId = DB::table('persons')->insertGetId([
-            'first_name' => 'Super',
-            'last_name' => 'Admin',
-            'email' => 'admin',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+        $userId = DB::table('users')->where('email', 'admin')->value('id');
+        if (!$userId) {
+            $personId = DB::table('persons')->where('email', 'admin')->value('id');
+            if (!$personId) {
+                $personId = DB::table('persons')->insertGetId([
+                    'first_name' => 'Super',
+                    'last_name' => 'Admin',
+                    'email' => 'admin',
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
 
-        $userId = DB::table('users')->insertGetId([
-            'person_id' => $personId,
-            'username' => 'admin',
-            'email' => 'admin',
-            'password_hash' => Hash::make('admin'),
-            'status' => 'active',
-            'email_verified_at' => now(),
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+            $userId = DB::table('users')->insertGetId([
+                'person_id' => $personId,
+                'username' => 'admin',
+                'email' => 'admin',
+                'password_hash' => Hash::make('admin'),
+                'status' => 'active',
+                'email_verified_at' => now(),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
 
         $superAdminRoleId = DB::table('roles')->where('code', 'admin')->value('id');
-        if ($superAdminRoleId) {
-            DB::table('user_roles')->insert([
+        if ($superAdminRoleId && $userId) {
+            DB::table('user_roles')->insertOrIgnore([
                 'user_id' => $userId,
                 'role_id' => $superAdminRoleId,
                 'branch_id' => null,
